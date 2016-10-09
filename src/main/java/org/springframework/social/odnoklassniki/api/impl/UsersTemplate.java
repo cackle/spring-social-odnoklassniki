@@ -1,13 +1,13 @@
 package org.springframework.social.odnoklassniki.api.impl;
 
-import java.net.URI;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.social.odnoklassniki.api.OdnoklassnikiProfile;
 import org.springframework.social.odnoklassniki.api.UsersOperations;
 import org.springframework.social.support.URIBuilder;
 import org.springframework.web.client.RestTemplate;
+
+import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * User operations.
@@ -32,17 +32,15 @@ public class UsersTemplate extends AbstractOdnoklassnikiOperations implements Us
 
         Map<String, String> params = new HashMap<String, String>();
         params.put("method", METHOD);
+        params.put("scope", "VALUABLE_ACCESS;LONG_ACCESS_TOKEN");
         URI uri = URIBuilder.fromUri(makeOperationURL(params)).build();
 
-        Map<String, String> profiles = restTemplate.getForObject(uri, Map.class);
-        //checkForError(profiles);
+        //        OdnoklassnikiProfile profile = new OdnoklassnikiProfile(profiles.get("uid"),
+//            profiles.get("first_name"), profiles.get("last_name"), profiles.get("email"),
+//            "http://odnoklassniki.ru?id=" + profiles.get("uid"));
+//
+//        profile.setPhoto(profiles.get("pic_1"));
 
-        OdnoklassnikiProfile profile = new OdnoklassnikiProfile(profiles.get("uid"),
-            profiles.get("first_name"), profiles.get("last_name"), profiles.get("email"),
-            "http://odnoklassniki.ru?id=" + profiles.get("uid"));
-
-        profile.setPhoto(profiles.get("pic_1"));
-
-        return profile;
+        return restTemplate.getForObject(uri, OdnoklassnikiProfile.class);
     }
 }

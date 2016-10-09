@@ -15,30 +15,48 @@
  */
 package org.springframework.social.odnoklassniki.api;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.Date;
+
 /**
  * Model class containing a Odnoklassnikiru user's profile information.
  * @author Cackle
  */
 public class OdnoklassnikiProfile {
 
-    private final String uid;
+    private String uid;
 
-    private final String firstName;
+    @JsonProperty("first_name")
+    private String firstName;
 
-    private final String lastName;
+    @JsonProperty("last_name")
+    private String lastName;
 
-    private final String email;
+    private int age;
 
-    private final String link;
+    private String gender;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
+    private Date birthDate;
+
+    private String email;
+
+    private String link;
+
+    @JsonProperty("pic_3")
     private String photo;
 
-    public OdnoklassnikiProfile(String uid, String firstName, String lastName, String email, String link) {
+    public OdnoklassnikiProfile() {
+    }
+
+    public OdnoklassnikiProfile(String uid, String firstName, String lastName, String email) {
         this.uid = uid;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.link = link;
+        this.link = String.format("http://odnoklassniki.ru?id=%s", uid);
     }
 
     public String getUid() {
@@ -53,16 +71,24 @@ public class OdnoklassnikiProfile {
         return lastName;
     }
 
+    public int getAge() {
+        return age;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
     public String getEmail() {
         return email;
     }
 
     public String getLink() {
         return link;
-    }
-
-    public void setPhoto(String photo) {
-        this.photo = photo;
     }
 
     public String getPhoto() {

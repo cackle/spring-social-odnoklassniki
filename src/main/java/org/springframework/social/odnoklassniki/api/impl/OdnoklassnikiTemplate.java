@@ -15,16 +15,10 @@
  */
 package org.springframework.social.odnoklassniki.api.impl;
 
-import org.codehaus.jackson.map.ObjectMapper;
-import org.springframework.http.MediaType;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
 import org.springframework.social.oauth2.AbstractOAuth2ApiBinding;
 import org.springframework.social.odnoklassniki.api.Odnoklassniki;
 import org.springframework.social.odnoklassniki.api.OdnoklassnikiErrorHandler;
 import org.springframework.social.odnoklassniki.api.UsersOperations;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Odnoklassniki template
@@ -49,29 +43,13 @@ public class OdnoklassnikiTemplate extends AbstractOAuth2ApiBinding implements O
     }
 
     private void initialize() {
-        registerJsonModule();
         getRestTemplate().setErrorHandler(new OdnoklassnikiErrorHandler());
         initSubApis();
     }
 
-    private void registerJsonModule() {
-        List<HttpMessageConverter<?>> converters = getRestTemplate().getMessageConverters();
-        for (HttpMessageConverter<?> converter : converters) {
-            if (converter instanceof MappingJacksonHttpMessageConverter) {
-                MappingJacksonHttpMessageConverter jsonConverter = (MappingJacksonHttpMessageConverter) converter;
-
-                List<MediaType> mTypes = new LinkedList<MediaType>(jsonConverter.getSupportedMediaTypes());
-                mTypes.add(new MediaType("text", "javascript", MappingJacksonHttpMessageConverter.DEFAULT_CHARSET));
-                jsonConverter.setSupportedMediaTypes(mTypes);
-
-                ObjectMapper objectMapper = new ObjectMapper();
-                jsonConverter.setObjectMapper(objectMapper);
-            }
-        }
-    }
-
     private void initSubApis() {
-        usersOperations = new UsersTemplate(applicationKey, clientSecret, getRestTemplate(), accessToken, isAuthorized());
+        usersOperations =
+                new UsersTemplate(applicationKey, clientSecret, getRestTemplate(), accessToken, isAuthorized());
     }
 
     @Override

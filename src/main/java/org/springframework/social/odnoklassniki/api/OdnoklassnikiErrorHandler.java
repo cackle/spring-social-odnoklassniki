@@ -22,6 +22,8 @@ import org.springframework.web.client.DefaultResponseErrorHandler;
 
 import java.io.IOException;
 
+import static org.springframework.social.odnoklassniki.api.Odnoklassniki.PROVIDER_ID;
+
 /**
  * Subclass of {@link DefaultResponseErrorHandler} that handles errors from Odnoklassnikiru's
  * API, interpreting them into appropriate exceptions.
@@ -42,7 +44,7 @@ public class OdnoklassnikiErrorHandler extends DefaultResponseErrorHandler {
 		try {
 			super.handleError(response);
 		} catch(Exception e) {
-			throw new UncategorizedApiException("Error consuming Odnoklassnikiru REST API", e);
+			throw new UncategorizedApiException(PROVIDER_ID, "Error consuming Odnoklassnikiru REST API", e);
 		}
 	}
 
@@ -50,21 +52,22 @@ public class OdnoklassnikiErrorHandler extends DefaultResponseErrorHandler {
 		HttpStatus statusCode = response.getStatusCode();
 
 		if (statusCode == HttpStatus.UNAUTHORIZED) {
-			throw new NotAuthorizedException("User was not authorised.");
+			throw new NotAuthorizedException(PROVIDER_ID, "User was not authorised.");
 		} else if (statusCode == HttpStatus.FORBIDDEN) {
-			throw new OperationNotPermittedException("User is forbidden to access this resource.");
+			throw new OperationNotPermittedException(PROVIDER_ID, "User is forbidden to access this resource.");
 		} else if (statusCode == HttpStatus.NOT_FOUND) {
-			throw new ResourceNotFoundException("Resource was not found.");
+			throw new ResourceNotFoundException(PROVIDER_ID, "Resource was not found.");
         }
 	}
 
 	private void handleServerErrors(HttpStatus statusCode) throws IOException {
 		if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR) {
-			throw new InternalServerErrorException("Something is broken at Odnoklassnikiru.");
+			throw new InternalServerErrorException(PROVIDER_ID, "Something is broken at Odnoklassnikiru.");
 		} else if (statusCode == HttpStatus.BAD_GATEWAY) {
-			throw new ServerDownException("Odnoklassnikiru is down or is being upgraded.");
+			throw new ServerDownException(PROVIDER_ID, "Odnoklassnikiru is down or is being upgraded.");
 		} else if (statusCode == HttpStatus.SERVICE_UNAVAILABLE) {
-			throw new ServerOverloadedException("Odnoklassnikiru is overloaded with requests. Try again later.");
+			throw new ServerOverloadedException(PROVIDER_ID,
+					"Odnoklassnikiru is overloaded with requests. Try again later.");
 		}
 	}
 }

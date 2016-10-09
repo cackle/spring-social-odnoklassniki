@@ -15,15 +15,9 @@
  */
 package org.springframework.social.odnoklassniki.connect;
 
-import org.springframework.http.MediaType;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
 import org.springframework.social.oauth2.AccessGrant;
 import org.springframework.social.oauth2.OAuth2Template;
-import org.springframework.web.client.RestTemplate;
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -36,33 +30,17 @@ public class OdnoklassnikiOAuth2Template extends OAuth2Template {
 
 	public OdnoklassnikiOAuth2Template(String clientId, String clientSecret) {
 		super(clientId, clientSecret, "http://www.odnoklassniki.ru/oauth/authorize", "http://api.odnoklassniki.ru/oauth/token.do");
+        setUseParametersForClientAuthentication(true);
 	}
 
     @Override
-    protected AccessGrant createAccessGrant(String accessToken, String scope, String refreshToken, Integer expiresIn, Map<String, Object> response) {
+    protected AccessGrant createAccessGrant(String accessToken, String scope, String refreshToken, Long expiresIn,
+                                            Map<String, Object> response) {
         uid = (String) response.get("x_mailru_vid");
         return super.createAccessGrant(accessToken, scope, refreshToken, expiresIn, response);
     }
 
     public String getUid() {
         return uid;
-    }
-
-    @Override
-    protected RestTemplate createRestTemplate() {
-        RestTemplate restTemplate = super.createRestTemplate();
-
-        List<HttpMessageConverter<?>> converters = restTemplate.getMessageConverters();
-        for (HttpMessageConverter<?> converter : converters) {
-            if (converter instanceof MappingJacksonHttpMessageConverter) {
-                MappingJacksonHttpMessageConverter jsonConverter = (MappingJacksonHttpMessageConverter) converter;
-
-                List<MediaType> mTypes = new LinkedList<MediaType>(jsonConverter.getSupportedMediaTypes());
-                mTypes.add(new MediaType("text", "javascript", MappingJacksonHttpMessageConverter.DEFAULT_CHARSET));
-                jsonConverter.setSupportedMediaTypes(mTypes);
-            }
-        }
-
-        return restTemplate;
     }
 }
