@@ -39,7 +39,7 @@ public class OdnoklassnikiProfile {
     private String gender;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
-    private Date birthDate;
+    private Date birthday;
 
     private String email;
 
@@ -79,8 +79,8 @@ public class OdnoklassnikiProfile {
         return gender;
     }
 
-    public Date getBirthDate() {
-        return birthDate;
+    public Date getBirthday() {
+        return birthday;
     }
 
     public String getEmail() {

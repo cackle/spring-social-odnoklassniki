@@ -32,7 +32,6 @@ public class UsersTemplate extends AbstractOdnoklassnikiOperations implements Us
 
         Map<String, String> params = new HashMap<String, String>();
         params.put("method", METHOD);
-        params.put("scope", "VALUABLE_ACCESS;LONG_ACCESS_TOKEN");
         URI uri = URIBuilder.fromUri(makeOperationURL(params)).build();
 
         //        OdnoklassnikiProfile profile = new OdnoklassnikiProfile(profiles.get("uid"),

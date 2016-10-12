@@ -27,5 +27,6 @@ public class OdnoklassnikiConnectionFactory extends OAuth2ConnectionFactory<Odno
 	public OdnoklassnikiConnectionFactory(String clientId, String clientSecret, String applicationKey) {
 		super(Odnoklassniki.PROVIDER_ID, new OdnoklassnikiServiceProvider(clientId, clientSecret, applicationKey),
 				new OdnoklassnikiAdapter());
+		setScope("VALUABLE_ACCESS");
 	}
 }
