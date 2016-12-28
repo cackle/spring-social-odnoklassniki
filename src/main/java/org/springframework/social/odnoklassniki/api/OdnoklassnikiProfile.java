@@ -43,9 +43,10 @@ public class OdnoklassnikiProfile {
 
     private String email;
 
+    @JsonProperty("url_profile")
     private String link;
 
-    @JsonProperty("pic_3")
+    @JsonProperty("pic_full")
     private String photo;
 
     public OdnoklassnikiProfile() {

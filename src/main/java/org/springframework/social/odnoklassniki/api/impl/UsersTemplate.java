@@ -16,6 +16,7 @@ import java.util.Map;
 public class UsersTemplate extends AbstractOdnoklassnikiOperations implements UsersOperations {
 
     private static final String METHOD = "users.getCurrentUser";
+    public static final String FIELDS = "uid,first_name,last_name,age,gender,birthday,email,url_profile,pic_full";
 
     private final RestTemplate restTemplate;
 
@@ -32,6 +33,7 @@ public class UsersTemplate extends AbstractOdnoklassnikiOperations implements Us
 
         Map<String, String> params = new HashMap<String, String>();
         params.put("method", METHOD);
+        params.put("fields",FIELDS);
         URI uri = URIBuilder.fromUri(makeOperationURL(params)).build();
 
         //        OdnoklassnikiProfile profile = new OdnoklassnikiProfile(profiles.get("uid"),

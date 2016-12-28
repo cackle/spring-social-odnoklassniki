@@ -12,9 +12,9 @@ import static org.springframework.social.odnoklassniki.api.Odnoklassniki.PROVIDE
 
 public abstract class AbstractOdnoklassnikiOperations {
 
-    private static final String MAILRU_REST_URL = "http://api.odnoklassniki.ru/fb.do?";
+    private static final String ODNOKLASSNIKI_REST_URL = "http://api.odnoklassniki.ru/fb.do?";
 
-    private final SortedMap<String, String> params = new TreeMap<String, String>(String::compareTo);
+    private final SortedMap<String, String> params = new TreeMap<String, String>();
 
     private final boolean isAuthorized;
 
@@ -43,7 +43,7 @@ public abstract class AbstractOdnoklassnikiOperations {
     protected String makeOperationURL(Map<String, String> params) {
         this.params.putAll(params);
 
-        StringBuilder url = new StringBuilder(MAILRU_REST_URL);
+        StringBuilder url = new StringBuilder(ODNOKLASSNIKI_REST_URL);
         StringBuilder signature = new StringBuilder();
 
         for (String param : this.params.keySet()) {
