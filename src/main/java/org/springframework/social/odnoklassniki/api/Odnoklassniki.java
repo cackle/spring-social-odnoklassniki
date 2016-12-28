@@ -18,6 +18,7 @@ package org.springframework.social.odnoklassniki.api;
 import org.springframework.social.ApiBinding;
 
 public interface Odnoklassniki extends ApiBinding {
+    String PROVIDER_ID = "odnoklassniki";
 
-    public UsersOperations usersOperations();
+    UsersOperations usersOperations();
 }
